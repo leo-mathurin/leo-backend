@@ -4,32 +4,48 @@ import { getTodayEvents } from "../services/google-calendar";
 import { getTodayAndOverdueTasks } from "../services/todoist";
 import { generateMorningBrief } from "../services/openai";
 
+async function handleMorningBrief(handlerInput: HandlerInput): Promise<Response> {
+  try {
+    const [events, tasks] = await Promise.all([
+      getTodayEvents(),
+      getTodayAndOverdueTasks(),
+    ]);
+
+    const briefing = await generateMorningBrief(events, tasks);
+
+    return handlerInput.responseBuilder
+      .speak(briefing)
+      .withShouldEndSession(true)
+      .getResponse();
+  } catch (error) {
+    console.error("Error generating morning brief:", error);
+    return handlerInput.responseBuilder
+      .speak(
+        "Désolé, je n'ai pas pu générer ton briefing matinal. Réessaie dans quelques instants.",
+      )
+      .withShouldEndSession(true)
+      .getResponse();
+  }
+}
+
 export const LaunchRequestHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   async handle(handlerInput: HandlerInput): Promise<Response> {
-    try {
-      const [events, tasks] = await Promise.all([
-        getTodayEvents(),
-        getTodayAndOverdueTasks(),
-      ]);
+    return handleMorningBrief(handlerInput);
+  },
+};
 
-      const briefing = await generateMorningBrief(events, tasks);
-
-      return handlerInput.responseBuilder
-        .speak(briefing)
-        .withShouldEndSession(true)
-        .getResponse();
-    } catch (error) {
-      console.error("Error generating morning brief:", error);
-      return handlerInput.responseBuilder
-        .speak(
-          "Désolé, je n'ai pas pu générer ton briefing matinal. Réessaie dans quelques instants.",
-        )
-        .withShouldEndSession(true)
-        .getResponse();
-    }
+export const GetMorningBriefIntentHandler: RequestHandler = {
+  canHandle(handlerInput: HandlerInput): boolean {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "GetMorningBriefIntent"
+    );
+  },
+  async handle(handlerInput: HandlerInput): Promise<Response> {
+    return handleMorningBrief(handlerInput);
   },
 };
 

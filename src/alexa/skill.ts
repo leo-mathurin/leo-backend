@@ -1,6 +1,7 @@
 import { SkillBuilders } from "ask-sdk-core";
 import {
   LaunchRequestHandler,
+  GetMorningBriefIntentHandler,
   HelpIntentHandler,
   CancelAndStopIntentHandler,
   SessionEndedRequestHandler,
@@ -10,6 +11,7 @@ import {
 export const skill = SkillBuilders.custom()
   .addRequestHandlers(
     LaunchRequestHandler,
+    GetMorningBriefIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler,

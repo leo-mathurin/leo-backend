@@ -22,6 +22,15 @@
         {
           "name": "AMAZON.FallbackIntent",
           "samples": []
+        },
+        {
+          "name": "GetMorningBriefIntent",
+          "samples": [
+            "donne-moi mon briefing",
+            "lis mon briefing",
+            "quel est mon briefing",
+            "fais mon briefing matinal"
+          ]
         }
       ],
       "types": []
