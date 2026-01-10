@@ -1,0 +1,54 @@
+{
+  "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "https://YOUR_VERCEL_URL/alexa"
+        },
+        "interfaces": []
+      }
+    },
+    "manifestVersion": "1.0",
+    "permissions": [],
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "locales": {
+        "fr-FR": {
+          "privacyPolicyUrl": "",
+          "termsOfUseUrl": ""
+        }
+      },
+      "containsAds": false,
+      "isExportCompliant": true,
+      "isChildDirected": false,
+      "usesPersonalInfo": false
+    },
+    "publishingInformation": {
+      "locales": {
+        "fr-FR": {
+          "summary": "Résumé matinal de tes événements et tâches du jour",
+          "examplePhrases": [
+            "Alexa, lance mon briefing matinal",
+            "Alexa, ouvre mon briefing matinal",
+            "Alexa, démarre mon briefing matinal"
+          ],
+          "keywords": [
+            "briefing",
+            "matinal",
+            "calendrier",
+            "tâches",
+            "productivité"
+          ],
+          "name": "Mon Briefing Matinal",
+          "description": "Cette skill te donne un résumé personnalisé de ta journée. Elle récupère tes événements Google Calendar et tes tâches Todoist, puis génère un briefing vocal concis et motivant pour bien commencer ta journée.",
+          "smallIconUri": "",
+          "largeIconUri": ""
+        }
+      },
+      "isAvailableWorldwide": false,
+      "testingInstructions": "Skill personnelle pour briefing matinal.",
+      "category": "PRODUCTIVITY",
+      "distributionCountries": ["FR"]
+    }
+  }
+}

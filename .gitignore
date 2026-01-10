@@ -1,3 +1,13 @@
+
+# Bun
+bun.lockb
+
+# Vercel
+.vercel/
+
+# Google Cloud
+leo-backend-*.json
+
 # Logs
 logs
 *.log
