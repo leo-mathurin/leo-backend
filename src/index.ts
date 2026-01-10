@@ -15,7 +15,7 @@ fastify.addContentTypeParser(
     } catch (err) {
       done(err as Error, undefined);
     }
-  }
+  },
 );
 
 fastify.post("/alexa", async (request, reply) => {
@@ -51,6 +51,10 @@ fastify.post("/alexa", async (request, reply) => {
       },
     });
   }
+});
+
+fastify.get("/", async () => {
+  return { message: "Hello leo!" };
 });
 
 fastify.get("/health", async () => {
