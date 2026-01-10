@@ -23,6 +23,7 @@ export async function generateMorningBrief(
     month: "long",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Europe/Paris",
   });
 
   const eventsText =
@@ -33,6 +34,7 @@ export async function generateMorningBrief(
               ? new Date(e.start).toLocaleTimeString("fr-FR", {
                   hour: "2-digit",
                   minute: "2-digit",
+                  timeZone: "Europe/Paris",
                 })
               : "Journée entière";
             return `- ${e.summary} à ${startTime}${e.location ? ` (${e.location})` : ""}${e.description ? ` - ${e.description}` : ""}`;
