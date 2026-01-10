@@ -1,8 +1,8 @@
 import { ErrorHandler, HandlerInput, RequestHandler } from "ask-sdk-core";
 import { Response } from "ask-sdk-model";
-import { getTodayEvents } from "../services/google-calendar.ts";
-import { getTodayAndOverdueTasks } from "../services/todoist.ts";
-import { generateMorningBrief } from "../services/openai.ts";
+import { getTodayEvents } from "../services/google-calendar";
+import { getTodayAndOverdueTasks } from "../services/todoist";
+import { generateMorningBrief } from "../services/openai";
 
 export const LaunchRequestHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {

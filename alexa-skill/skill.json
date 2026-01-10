@@ -3,7 +3,7 @@
     "apis": {
       "custom": {
         "endpoint": {
-          "uri": "https://YOUR_VERCEL_URL/alexa"
+          "uri": "https://leo-backend.vercel.app/alexa"
         },
         "interfaces": []
       }

@@ -1,6 +1,6 @@
 import OpenAI from "openai";
-import type { CalendarEvent } from "./google-calendar.ts";
-import type { TodoistTask } from "./todoist.ts";
+import type { CalendarEvent } from "./google-calendar";
+import type { TodoistTask } from "./todoist";
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,

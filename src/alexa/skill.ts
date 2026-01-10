@@ -5,7 +5,7 @@ import {
   CancelAndStopIntentHandler,
   SessionEndedRequestHandler,
   AlexaErrorHandler,
-} from "./handlers.ts";
+} from "./handlers";
 
 export const skill = SkillBuilders.custom()
   .addRequestHandlers(

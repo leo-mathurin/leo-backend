@@ -1,6 +1,6 @@
 import Fastify from "fastify";
 import { RequestEnvelope } from "ask-sdk-model";
-import { skill } from "./alexa/skill.ts";
+import { skill } from "./alexa/skill";
 
 const fastify = Fastify({ logger: true });
 
