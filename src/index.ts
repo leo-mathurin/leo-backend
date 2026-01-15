@@ -1,10 +1,36 @@
 import Fastify from "fastify";
 import { RequestEnvelope } from "ask-sdk-model";
 import { skill } from "./alexa/skill";
+import { getTodayEvents } from "./services/google-calendar";
+import { getTodayAndOverdueTasks } from "./services/todoist";
+import { generateMorningBrief } from "./services/openai";
 
 const fastify = Fastify({ logger: true });
 
-// Ajouter le support du content-type Alexa
+const API_KEY = process.env.API_KEY;
+const EXEMPT_PATHS = (process.env.API_KEY_EXEMPT_PATHS ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+// Protect all routes via an API key (header `x-api-key`)
+fastify.addHook("preHandler", async (request, reply) => {
+  if (EXEMPT_PATHS.includes(request.url)) return;
+
+  if (!API_KEY) {
+    request.log.error("API_KEY is not set");
+    return reply.code(500).send({ error: "Server misconfigured" });
+  }
+
+  const xApiKeyHeader = request.headers["x-api-key"];
+  const xApiKey = typeof xApiKeyHeader === "string" ? xApiKeyHeader : undefined;
+
+  if (!xApiKey || xApiKey !== API_KEY) {
+    return reply.code(401).send({ error: "Unauthorized" });
+  }
+});
+
+// Add support for the Alexa content-type
 fastify.addContentTypeParser(
   "application/json",
   { parseAs: "string" },
@@ -61,7 +87,27 @@ fastify.get("/health", async () => {
   return { status: "ok" };
 });
 
-const port = parseInt(process.env.PORT || "3000", 10);
+// Endpoint to retrieve only the text of the briefing
+fastify.get("/briefing/text", async (request, reply) => {
+  try {
+    const [events, tasks] = await Promise.all([
+      getTodayEvents(),
+      getTodayAndOverdueTasks(),
+    ]);
+
+    const briefing = await generateMorningBrief(events, tasks);
+
+    reply.type("text/plain; charset=utf-8");
+    return briefing;
+  } catch (error) {
+    fastify.log.error(error);
+    reply.type("text/plain; charset=utf-8");
+    reply.status(500);
+    return "Impossible de générer le briefing.";
+  }
+});
+
+const port = parseInt(process.env.PORT || "3100", 10);
 
 fastify.listen({ port, host: "0.0.0.0" }, (err, address) => {
   if (err) {
